@@ -14,9 +14,11 @@ describe('ParserService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should not parse the file if signature is not correct',inject([ParserService],(service:ParserService)=>{
-    expect(service).toBeTruthy();
+ it('should not parse the file if signature is not correct',inject([ParserService],(service:ParserService)=>{
+    service.createCues([["WEBTT", "00:01:47.250 --> 00:01:50.500↵This blade has a dark past."]]);
+    expect(service.cues.length).toEqual(0);
   }));
+
   it('should return list of cues in which given time is between the start time and end time ',inject([ParserService],(service:ParserService)=>{
     service.cues=[
       {id: null, subtitle: "This blade has a dark past.", startDuration: 107.25, endDuration: 110.5},
