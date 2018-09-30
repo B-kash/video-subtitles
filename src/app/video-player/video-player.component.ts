@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ParserService} from "../parser-service.service";
 
 @Component({
   selector: 'app-video-player',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VideoPlayerComponent implements OnInit {
 
-  constructor() { }
+
+  subtitle: string = '';
+
+  constructor(private parserService:ParserService) { }
 
   ngOnInit() {
   }
+
+  reset(){
+    this.parserService.reset();
+//    TODO now download another subtitle again and send it to parse into above functions
+  }
+
 
 }

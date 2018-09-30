@@ -1,6 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
 import { VideoPlayerComponent } from './video-player.component';
+import {ParserService} from "../parser-service.service";
 
 describe('VideoPlayerComponent', () => {
   let component: VideoPlayerComponent;
@@ -8,7 +9,8 @@ describe('VideoPlayerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VideoPlayerComponent ]
+      declarations: [ VideoPlayerComponent ],
+      providers: [ParserService]
     })
     .compileComponents();
   }));
@@ -19,7 +21,7 @@ describe('VideoPlayerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', inject([ParserService],(service: ParserService) => {
     expect(component).toBeTruthy();
-  });
+  }));
 });
