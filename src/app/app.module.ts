@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import {ParserService} from "./parser-service.service";
+import {ApiService} from "./api.service";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import {ParserService} from "./parser-service.service";
     FormsModule,
     HttpModule
   ],
-  providers: [ParserService],
+  providers: [ParserService,ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
