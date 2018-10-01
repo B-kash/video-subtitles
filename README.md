@@ -2,7 +2,7 @@
 
 Following technologies need to be installed into the system before running running the application or its tests<br>
 <ol>
-<li><strong>[Node js](https://nodejs.org/en/download/)</strong></li>
+<li><strong>Node js (https://nodejs.org/en/download/)</strong></li>
 <li><strong>Npm (comes along with node js)</strong></li>
 <li><strong>http-server :  npm install http-server -g </strong></li>
 </ol>
