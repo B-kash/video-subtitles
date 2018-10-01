@@ -22,25 +22,36 @@ export class ParserService {
     //currently lets just filter it from array
 //    TODO later on use other algorithm that takes less time
 
-    return this.cues.filter(cue => currentTime >= cue.startDuration && currentTime < cue.endDuration);
+    // return this.cues.filter(cue => currentTime >= cue.startDuration && currentTime < cue.endDuration);
     // lets try binary search algorithm for this case but in this case its limited to searching just one cue
-    //TODO later on we need to show overlapped cues if we use this algotithm need to tackle it
-    // let selectedCue = [];
-    // let left = 0, right = this.cues.length;
-    // while(left<=right){
-    //   let mid = Math.floor((left +(right-1))/2);
-    //   let midCue:any = {...this.cues[mid]};
-    //   if(currentTime >= midCue.startDuration && currentTime < midCue.endDuration){
-    //     selectedCue.push(midCue);
-    //     break;
-    //   }
-    //   else if(currentTime<midCue.startDuration){
-    //     right = mid - 1;
-    //   }else{
-    //     left = mid + 1;
-    //   }
-    // }
-    // return selectedCue;
+    // TODO later on we need to show overlapped cues if we use this algotithm need to tackle it
+    let selectedCue = [];
+    let left = 0, right = this.cues.length;
+    while(left<=right){
+      let mid = Math.floor((left +(right-1))/2);
+      let midCue:any = {...this.cues[mid]};
+      if(currentTime >= midCue.startDuration && currentTime < midCue.endDuration){
+        selectedCue.push(midCue);
+        let upperNext = mid+1;
+        let lowerNext = mid-1;
+        console.log("Upper next",this.cues[upperNext],"lower next",this.cues[lowerNext]);
+        while(upperNext<right-1 && currentTime >= this.cues[upperNext].startDuration && currentTime < this.cues[upperNext].endDuration ){
+          selectedCue.push(this.cues[upperNext]);
+          upperNext++;
+        }
+
+        while(lowerNext>=left && currentTime >= this.cues[lowerNext].startDuration && currentTime < this.cues[lowerNext].endDuration ){
+          selectedCue.push(this.cues[lowerNext]);
+          lowerNext--;
+        }
+        break;
+      }else if(currentTime<midCue.startDuration){
+        right = mid - 1;
+      }else{
+        left = mid + 1;
+      }
+    }
+    return selectedCue;
 
   }
 
