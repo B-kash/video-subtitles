@@ -15,7 +15,7 @@ export class ParserService {
 
   reset() {
     this.cues = [];
-//    TODO now download another subtitle again and send it to parse into above functions
+//    TODO now download another subtitle again and send it to parser
   }
 
   getCueForTime(currentTime) {
@@ -23,6 +23,25 @@ export class ParserService {
 //    TODO later on use other algorithm that takes less time
 
     return this.cues.filter(cue => currentTime >= cue.startDuration && currentTime < cue.endDuration);
+    // lets try binary search algorithm for this case but in this case its limited to searching just one cue
+    //TODO later on we need to show overlapped cues if we use this algotithm need to tackle it
+    // let selectedCue = [];
+    // let left = 0, right = this.cues.length;
+    // while(left<=right){
+    //   let mid = Math.floor((left +(right-1))/2);
+    //   let midCue:any = {...this.cues[mid]};
+    //   if(currentTime >= midCue.startDuration && currentTime < midCue.endDuration){
+    //     selectedCue.push(midCue);
+    //     break;
+    //   }
+    //   else if(currentTime<midCue.startDuration){
+    //     right = mid - 1;
+    //   }else{
+    //     left = mid + 1;
+    //   }
+    // }
+    // return selectedCue;
+
   }
 
   parseFile(data) {
@@ -34,7 +53,7 @@ export class ParserService {
     data = data.replace(/\r/g, '\n');
     //We know each block is seperated by 2 consecutive new lines so splitting the string to seprate  blocks
     let webvttSplits = data.split('\n\n');
-    console.log("webvttsplits",webvttSplits);
+    // console.log("webvttsplits",webvttSplits);
     this.createCues(webvttSplits);
   }
 
@@ -54,13 +73,13 @@ export class ParserService {
       return;
     } else {
       this.cues = this.parseSplits(webvttSplits);
-      console.log("cues",this.cues)
+      this.cues.sort(this.sortAscendingByStartDuration);
     }
   }
 
   parseSplits(splits) {
     //  TODO write magical code to parse each splits into objects
-    return splits.map(this.parseCue).filter(Boolean);
+    return splits.map(this.parseCue,this).filter(Boolean);
   }
 
   parseCue(cue, index) {
@@ -104,13 +123,13 @@ export class ParserService {
     if (cueLines.length > 0 && cueLines[0].includes('-->')) {
       const times = cueLines[0].split(' --> ');
 
-      if (times.length !== 2 || !ParserService.validTimestamp(times[0]) || !ParserService.validTimestamp(times[1])) {
+      if (times.length !== 2 || !this.validTimestamp(times[0]) || !this.validTimestamp(times[1])) {
         console.log('Invalid timestamp on index ',index);
         return;
       }
 
-      cueObject.startDuration = ParserService.convertToSeconds(times[0]);
-      cueObject.endDuration = ParserService.convertToSeconds(times[1]);
+      cueObject.startDuration = this.convertToSeconds(times[0]);
+      cueObject.endDuration = this.convertToSeconds(times[1]);
 
       if (cueObject.startDuration > cueObject.endDuration) {
         console.log('Start time should be smaller than end on index ', index);
@@ -132,12 +151,12 @@ export class ParserService {
   }
 
 
-  static validTimestamp(timestamp) {
+  validTimestamp(timestamp) {
     return ParserService.TIMESTAMP_REGEXP.test(timestamp);
   }
 
 
-  static convertToSeconds(time: string | any) {
+  convertToSeconds(time: string | any) {
 
 
     let timeSplits = time.split(':');
@@ -149,5 +168,9 @@ export class ParserService {
     return (hr * 60 * 60 + min * 60 + sec);
 
 
+  }
+
+  sortAscendingByStartDuration(cue1,cue2){
+    return cue1.startDuration - cue2.startDuration;
   }
 }
