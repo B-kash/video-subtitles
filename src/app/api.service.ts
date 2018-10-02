@@ -6,7 +6,7 @@ export class ApiService {
 
   constructor(private http:Http) { }
 
-  getSubtitle() {
-    return this.http.get('http://127.0.0.1:8000/sub.vtt');
+  getSubtitle(url) {
+    return this.http.get(url);
   }
 }

@@ -13,22 +13,26 @@ export class VideoPlayerComponent implements OnInit {
   subtitle: string = '';
 
   @ViewChild('videoPlayer') videoPlayer;
+  subtitleUrl = 'http://127.0.0.1:8000/sub.vtt';
 
   constructor(private parserService:ParserService,private api: ApiService) { }
 
   ngOnInit() {
-    this.downloadSubtitle();
+    // this.downloadSubtitle();
   }
 
   reset(){
     this.parserService.reset();
+    console.log("All Subtitle cues removed");
 //    TODO now download another subtitle again and send it to parse into parserService
+    this.videoPlayer.nativeElement.src = 'http://127.0.0.1:8000/video1.mp4';
+    this.subtitleUrl = 'http://127.0.0.1:8000/sub1.vtt';
   }
 
 
-  downloadSubtitle() {
-    this.api.getSubtitle().subscribe(res=>{
-      console.log(res['_body']);
+  downloadSubtitle(url) {
+    this.api.getSubtitle(url).subscribe(res=>{
+      // console.log(res['_body']);
       this.parserService.parseFile(res['_body']);
     },(err)=>{
       console.log("Error","Cannot download subtitle",err);

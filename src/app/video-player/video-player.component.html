@@ -1,4 +1,4 @@
-<video controls='controls'  id = 'videoPlayer' #videoPlayer (timeupdate)="getSubtitle()" >
+<video controls='controls'  id = 'videoPlayer' #videoPlayer (timeupdate)="getSubtitle()" (loadeddata)="downloadSubtitle(subtitleUrl)" >
   <source src='http://127.0.0.1:8000/video.mp4'>
 </video>
 <p id='subtitle'>{{subtitle}}</p>

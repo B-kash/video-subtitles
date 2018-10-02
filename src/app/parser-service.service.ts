@@ -19,31 +19,43 @@ export class ParserService {
   }
 
   getCueForTime(currentTime) {
-    //currently lets just filter it from array
-//    TODO later on use other algorithm that takes less time
 
-    // return this.cues.filter(cue => currentTime >= cue.startDuration && currentTime < cue.endDuration);
-    // lets try binary search algorithm for this case but in this case its limited to searching just one cue
-    // TODO later on we need to show overlapped cues if we use this algotithm need to tackle it
+    // lets try modified binary search algorithm for this case but in this case
     let selectedCue = [];
-    let left = 0, right = this.cues.length;
+    let left = 0, right = this.cues.length-1;
     while(left<=right){
-      let mid = Math.floor((left +(right-1))/2);
+      let mid = Math.floor((left +right)/2);
       let midCue:any = {...this.cues[mid]};
+
       if(currentTime >= midCue.startDuration && currentTime < midCue.endDuration){
         selectedCue.push(midCue);
-        let upperNext = mid+1;
-        let lowerNext = mid-1;
-        console.log("Upper next",this.cues[upperNext],"lower next",this.cues[lowerNext]);
-        while(upperNext<right-1 && currentTime >= this.cues[upperNext].startDuration && currentTime < this.cues[upperNext].endDuration ){
-          selectedCue.push(this.cues[upperNext]);
-          upperNext++;
+        //In this case when we find a cue for the current time, instead of breaking the loop we search for more cues which might have overlapped
+        //For this we search for all the cues from the mid point all the way to the left and right until we stop getting matching results
+        let upperNext = mid+1; //this index goes to the right side of the array i.e towards last item
+        let lowerNext = mid-1; //this index goes to the left side of the array  i.e towards first item
+
+        while(upperNext<=right ||  lowerNext>=left){
+          let foundNext = false; //this flag is turned true when we find a matching cue on the either side of the array
+          if(upperNext<=right ){
+            if(currentTime >= this.cues[upperNext].startDuration && currentTime < this.cues[upperNext].endDuration){
+              selectedCue.push(this.cues[upperNext]);
+              upperNext++;
+              foundNext = true;
+            }
+          }
+          if(lowerNext>=left){
+            if( this.cues[lowerNext].startDuration && currentTime < this.cues[lowerNext].endDuration ){
+              selectedCue.push(this.cues[lowerNext]);
+              lowerNext--;
+              foundNext = true;
+            }
+          }
+          //when no cue at a particular time is found, we break out of the loop
+          if(!foundNext){
+            break;
+          }
         }
 
-        while(lowerNext>=left && currentTime >= this.cues[lowerNext].startDuration && currentTime < this.cues[lowerNext].endDuration ){
-          selectedCue.push(this.cues[lowerNext]);
-          lowerNext--;
-        }
         break;
       }else if(currentTime<midCue.startDuration){
         right = mid - 1;
@@ -51,7 +63,7 @@ export class ParserService {
         left = mid + 1;
       }
     }
-    return selectedCue;
+    return selectedCue.sort(this.sortAscendingByStartDuration);
 
   }
 
@@ -66,6 +78,7 @@ export class ParserService {
     let webvttSplits = data.split('\n\n');
     // console.log("webvttsplits",webvttSplits);
     this.createCues(webvttSplits);
+    console.log("Cues are ",this.cues);
   }
 
 
