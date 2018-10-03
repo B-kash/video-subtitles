@@ -5,6 +5,7 @@ Following technologies need to be installed into the system before running runni
 <li><strong>Node js (https://nodejs.org/en/download/)</strong></li>
 <li><strong>Npm (comes along with node js)</strong></li>
 <li><strong>http-server :  npm install http-server -g </strong></li>
+<li><strong>angular cli :  npm install -g @angular/cli </strong></li>
 </ol>
 
 In order to run the application we need video and subtitle file to be served. Download the video and subtitle file and 
