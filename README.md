@@ -14,7 +14,7 @@ Now serve the directory using `http-server`, for that In the terminal run the co
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. 
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. For the first time setup run `npm install` before `npm start` to download the required dependencies.
 
 ## Running unit tests
 
