@@ -16,7 +16,6 @@ describe('ParserService', () => {
 
   it('should  parse the file if signature is correct',inject([ParserService],(service:ParserService)=>{
     service.createCues(["WEBVTT", "00:01:47.250 --> 00:01:50.500\nThis blade has a dark past."]);
-    console.log("cues are",service.getAllCues());
     expect(service.cues.length).toEqual(1);
   }));
 

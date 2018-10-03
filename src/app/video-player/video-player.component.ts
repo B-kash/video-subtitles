@@ -32,7 +32,6 @@ export class VideoPlayerComponent implements OnInit {
 
   downloadSubtitle(url) {
     this.api.getSubtitle(url).subscribe(res=>{
-      // console.log(res['_body']);
       this.parserService.parseFile(res['_body']);
     },(err)=>{
       console.log("Error","Cannot download subtitle",err);

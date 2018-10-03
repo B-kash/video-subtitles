@@ -76,9 +76,7 @@ export class ParserService {
     data = data.replace(/\r/g, '\n');
     //We know each block is seperated by 2 consecutive new lines so splitting the string to seprate  blocks
     let webvttSplits = data.split('\n\n');
-    // console.log("webvttsplits",webvttSplits);
     this.createCues(webvttSplits);
-    console.log("Cues are ",this.cues);
   }
 
 
@@ -121,13 +119,13 @@ export class ParserService {
     }
 
     if (cueLines.length === 1 && !cueLines[0].includes('-->')) {
-      console.log('Parsing error cue header is alone on index ', index);
+      console.log('Error','Parsing error cue header is alone on index ', index);
       return;
     }
 
     if (cueLines.length > 1 &&
       !(cueLines[0].includes('-->') || cueLines[1].includes('-->'))) {
-      console.log('Cue header needs to be followed by timestamp on index ', index);
+      console.log('Error','Cue header needs to be followed by timestamp on index ', index);
       return;
     }
 
@@ -148,7 +146,7 @@ export class ParserService {
       const times = cueLines[0].split(' --> ');
 
       if (times.length !== 2 || !this.validTimestamp(times[0]) || !this.validTimestamp(times[1])) {
-        console.log('Invalid timestamp on index ',index);
+        console.log('Error','Invalid timestamp on index ',index);
         return;
       }
 
@@ -156,12 +154,12 @@ export class ParserService {
       cueObject.endDuration = this.convertToSeconds(times[1]);
 
       if (cueObject.startDuration > cueObject.endDuration) {
-        console.log('Start time should be smaller than end on index ', index);
+        console.log('Error','Start time should be smaller than end on index ', index);
         return;
       }
 
       if (cueObject.endDuration <= cueObject.startDuration) {
-        console.log('End time must be greater than start on index ', index);
+        console.log('Error','End time must be greater than start on index ', index);
         return;
       }
 
