@@ -2,9 +2,9 @@
 
 Following technologies need to be installed into the system before running running the application or its tests<br>
 <ol>
-<li><strong>Node js (https://nodejs.org/en/download/)</strong></li>
-<li><strong>Npm (comes along with node js)</strong></li>
-<li><strong>http-server :  npm install http-server -g </strong></li>
+<li><strong>Node js (https://nodejs.org/en/download/)</strong>node prefered version 7.10.0 or higer</li>
+<li><strong>Npm (comes along with node js)</strong> npm prefered version 4.2.0 or higer </li>
+<li><strong>http-server :  (npm install http-server -g) </strong> http-server prefered version 0.11.1</li>
 <li><strong>angular cli :  npm install -g @angular/cli </strong></li>
 </ol>
 
