@@ -14,6 +14,7 @@ Following technologies need to be installed into the system before running runni
   <li> port 8000 is not used by other applications</li>
   <li> all the technologies mentioned above are already installed into your machine</li>
 </ol>
+
 In order to run the application we need video and subtitle file to be served. Download the video and subtitle file and 
 navigate to that directory. Rename the video file to `video.mp4` and the subtitle file to `sub.vtt`. 
 Now serve the directory using `http-server`, for that In the terminal run the command `http-server -p 8000 --cors`.
