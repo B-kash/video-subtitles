@@ -5,7 +5,7 @@ Following technologies need to be installed into the system before running runni
 <li><strong>Node js (https://nodejs.org/en/download/)</strong>node prefered version 7.10.0 or higer</li>
 <li><strong>Npm (comes along with node js)</strong> npm prefered version 4.2.0 or higer </li>
 <li><strong>http-server :  (npm install http-server -g) </strong> http-server prefered version 0.11.1</li>
-<li><strong>angular cli :  npm install -g @angular/cli </strong></li>
+<li><strong>angular cli :  npm install -g @angular/cli </strong> this prototype is built on angular/cli version 1.0.0</li>
 </ol>
 
 ## Assumptions and TODO before running
@@ -15,8 +15,8 @@ Following technologies need to be installed into the system before running runni
   <li> all the technologies mentioned above are already installed into your machine</li>
 </ol>
 
-In order to run the application we need video and subtitle file to be served. Download the video and subtitle file and 
-navigate to that directory. Rename the video file to `video.mp4` and the subtitle file to `sub.vtt`. 
+In order to run the application we need video and subtitle file to be served. Download two video files and its subtitle files. 
+Navigate to that directory. Rename the video files to `video.mp4` and `video1.mp4` and the subtitle files to `sub.vtt` and `sub1.vtt` respectively. 
 Now serve the directory using `http-server`, for that In the terminal run the command `http-server -p 8000 --cors`.
 
 ## Development server
